@@ -1,0 +1,16 @@
+# Confirm requirements, oathtool must be installed via brew
+/usr/local/bin/oathtool > /dev/null  ||  ( echo "Can't find oathtool!" ; exit 1 )
+/usr/bin/pbcopy         < /dev/null  ||  ( echo "Can't find pbcopy!"   ; exit 1 )
+
+# Setup variables
+KEY=1234567890abcdef1234567890abcdef12345678
+PIN=YOURPIN         #WARNING, it is careless to store your PIN here
+
+# Generate token
+TOKEN=$(/usr/local/bin/oathtool --totp=sha1 ${KEY})
+
+# Debug, print token to stdout
+echo "The OTP is ${TOKEN}"
+
+# Copy PIN + token into clipboard
+echo ${PIN}${TOKEN} | pbcopy
